@@ -1,0 +1,31 @@
+{
+  "name": "json-api-payload-builder",
+  "version": "0.1.0",
+  "description": "create json-api payload from plain json objects",
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0 <0.12"
+  },
+  "scripts": {
+    "test": "mocha",
+    "browser": "open test/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kagemusha/json-api-payload-builder.git"
+  },
+  "keywords": [
+    "json-api"
+  ],
+  "author": "Michael Madrid",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kagemusha/json-api-payload-builder/issues"
+  },
+  "homepage": "https://github.com/kagemusha/json-api-payload-builder",
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "mocha": "^1.21.4",
+    "inflection": "~1.4.2"
+  }
+}
