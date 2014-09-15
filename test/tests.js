@@ -118,7 +118,7 @@ describe('Builder Tests:', function(){
   });
 
   //parentLink
-  it('should properly create polymorphic links specified with the polymorphicTypes option', function(){
+  it('should properly create parent links specified with the parentLink option', function(){
     var drawing1 = build('drawing', 1);
     var drawing2 = build('drawing', 2);
 
