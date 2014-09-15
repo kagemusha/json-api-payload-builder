@@ -45,3 +45,6 @@ Other features include:
 
 
 See the [tests](https://github.com/kagemusha/json-api-payload-builder/blob/master/test/tests.js) for examples of the above.
+
+
+**License: MIT**
