@@ -26,6 +26,7 @@
   "devDependencies": {
     "chai": "~1.9.1",
     "mocha": "^1.21.4",
-    "inflection": "~1.4.2"
+    "inflection": "~1.4.2",
+    "underscore": "^1.7.0"
   }
 }
