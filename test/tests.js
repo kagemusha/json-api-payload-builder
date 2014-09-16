@@ -1,3 +1,6 @@
+/* jshint node:true */
+/* global describe, it */
+
 var assert = require("assert");
 var _ = require("underscore");
 var buildPayload = require("../lib/json-api-payload-builder.js");
@@ -20,16 +23,16 @@ describe('Builder Tests:', function(){
     var payload = buildPayload('items', item);
     assert.deepEqual(payload, {items: [item]});
 
-    var payload = buildPayload('items', [item]);
+    payload = buildPayload('items', [item]);
     assert.deepEqual(payload, {items: [item]});
   });
 
   /*
-    proper link syntax means if a containing objects has a property which is an object
-    it is a hasOne association, and if an array, a hasMany association.  both are put
-    in arrays under a pluralized property in links.  in the containing objects links
-    property, hasOne objects become a singular key with an id, whereas hasMany
-    arrays become an id array with a plural key.
+    proper link syntax means if a containing objects has a property which is an
+    object it is a hasOne association, and if an array, a hasMany association.
+    both are put in arrays under a pluralized property in links.  in the
+    containing objects links property, hasOne objects become a singular key with
+    an id, whereas hasMany arrays become an id array with a plural key.
    */
   it('should extract embedded objects as links with proper link syntax', function(){
     var item = build('item', 1);
@@ -54,7 +57,7 @@ describe('Builder Tests:', function(){
 
     assert.deepEqual(payload, expectedPayload);
   });
-//
+
   it('should not extract excluded keys', function(){
     var item = build('item', 1, {auth: {key: 'kkk', id: "xyz"}});
     var payload = buildPayload('items', item, {excludedKeys: 'auth'});
@@ -77,7 +80,7 @@ describe('Builder Tests:', function(){
 
   });
 
-  it('should properly create polymorphic links specified with the polymorphicTypes option', function(){
+  it('should create polymorphic links with the polymorphicTypes option', function(){
     var drawing1 = build('drawing', 1);
     var drawing2 = build('drawing', 2);
     var shape1 = build('shape',1, {type: 'circle'});
@@ -98,7 +101,7 @@ describe('Builder Tests:', function(){
     assert.deepEqual(payload, expectedPayload);
   });
 
-  it('should properly use the linkBackTypes option to give embedded objects links to their containing object', function() {
+  it('should use optional linkBackTypes to link embedded objects to their parent', function() {
     var item = build('item', 1);
     item.mItems = [build('mItem', 1), build('mItem', 2)];
     var payload = buildPayload('items', item, {linkBackTypes: ['mItem']});
@@ -114,7 +117,7 @@ describe('Builder Tests:', function(){
         ]
       }
     };
-    assert.deepEqual(payload, expectedPayload)
+    assert.deepEqual(payload, expectedPayload);
   });
 
   //parentLink
@@ -129,8 +132,77 @@ describe('Builder Tests:', function(){
         { "id":2,"name":"drawing2","links":{"project":{id: 1, type: 'civil_project'}} }
       ]
     };
-    logObject(payload)
-    logObject(expectedPayload)
+    // logObject(payload);
+    // logObject(expectedPayload);
+    assert.deepEqual(payload, expectedPayload);
+  });
+
+  it('should not clobber existing links', function(){
+    var item = build('item', 1, {
+      bar: build('bar', 2),
+      links: {
+        foo: 2,
+      }
+    });
+
+    var payload = buildPayload('item', item);
+    var expectedPayload = {
+      items: [
+        {
+          id: 1,
+          name: "item1",
+          links: {
+            foo: 2,
+            bar: 2
+          }
+        },
+      ],
+      linked: {
+        bars: [
+          {
+            id: 2,
+            name: "bar2"
+          }
+        ]
+      }
+    };
+    // logObject(payload);
+    // logObject(expectedPayload);
+    assert.deepEqual(payload, expectedPayload);
+  });
+
+  it('should not work with nulls', function(){
+    var item = build('item', 1, {
+      bar: null,
+    });
+
+    var payload = buildPayload('item', item);
+    var expectedPayload = {
+      items: [
+        {
+          id: 1,
+          name: "item1",
+          bar: null
+        },
+      ],
+    };
+    assert.deepEqual(payload, expectedPayload);
+  });
+
+  it('should remove undefined keys', function(){
+    var item = build('item', 1, {
+      bar: undefined,
+    });
+
+    var payload = buildPayload('item', item);
+    var expectedPayload = {
+      items: [
+        {
+          id: 1,
+          name: "item1",
+        },
+      ],
+    };
     assert.deepEqual(payload, expectedPayload);
   });
 
