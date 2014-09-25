@@ -227,9 +227,6 @@ describe('Builder Tests:', function(){
         employees: [ manager, assistant ]
       }
     };
-    console.log(JSON.stringify(payload));
-    console.log("--exp--");
-    console.log(JSON.stringify(expectedPayload));
     assert.deepEqual(payload, expectedPayload);
   })
 });
