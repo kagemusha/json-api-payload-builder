@@ -60,5 +60,8 @@ Other features include:
 
 [See tests](https://github.com/kagemusha/json-api-payload-builder/blob/master/test/tests.js)
 
+### Running Tests
 
+    npm test
+    
 **License: MIT**
