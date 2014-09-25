@@ -1,6 +1,6 @@
 {
   "name": "json-api-payload-builder",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/kagemusha/json-api-payload-builder",
   "authors": [
     "Michael Madrid <mmadrid99@gmail.com>"
