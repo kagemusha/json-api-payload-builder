@@ -39,12 +39,26 @@ and builds:
 Other features include:
 
 1. polymorphic types (assumes the polymorphic types has a type property)
-2. adding a link from embedded objects to their containing object
-3. excluding objects from being extracted to linked 
+
+    see `should create polymorphic links with the polymorphicTypes option` test
+
+2. adding a link from embedded objects back to their containing object
+
+    see `should use optional linkBackTypes to link embedded objects to their parent` test)
+
+3. excluding objects from being extracted to linked
+
+    see `should not extract excluded keys` test
+
 4. adding a parent link to top-level objects
 
+    see `should create parent links specified with the parentLink option` test
 
-See the [tests](https://github.com/kagemusha/json-api-payload-builder/blob/master/test/tests.js) for examples of the above.
+5. ad-hoc mapping of embedded objects using a different type name
+
+    see `should map with the mappings property` test
+
+[See tests](https://github.com/kagemusha/json-api-payload-builder/blob/master/test/tests.js)
 
 
 **License: MIT**

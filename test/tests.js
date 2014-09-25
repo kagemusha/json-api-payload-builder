@@ -121,7 +121,7 @@ describe('Builder Tests:', function(){
   });
 
   //parentLink
-  it('should properly create parent links specified with the parentLink option', function(){
+  it('should create parent links specified with the parentLink option', function(){
     var drawing1 = build('drawing', 1);
     var drawing2 = build('drawing', 2);
 
@@ -206,4 +206,30 @@ describe('Builder Tests:', function(){
     assert.deepEqual(payload, expectedPayload);
   });
 
+  it('should map with the mappings property', function(){
+    var manager = build('employee', 1);
+    var assistant = build('employee', 2);
+
+    var dept = build('department', 1, {
+      manager: manager,
+      assistant: assistant
+    });
+    var payload = buildPayload('department', dept, {mappings: {manager: "employee", assistant: "employee"}})
+    var expectedPayload = {
+      departments: [
+        {
+          id: 1,
+          name: "department1",
+          links: {manager: manager.id, assistant: assistant.id}
+        }
+      ],
+      linked: {
+        employees: [ manager, assistant ]
+      }
+    };
+    console.log(JSON.stringify(payload));
+    console.log("--exp--");
+    console.log(JSON.stringify(expectedPayload));
+    assert.deepEqual(payload, expectedPayload);
+  })
 });
