@@ -228,5 +228,39 @@ describe('Builder Tests:', function(){
       }
     };
     assert.deepEqual(payload, expectedPayload);
-  })
+  });
+
+  it('should extract deeply nested objects with proper link syntax', function() {
+    var aItem = build('aItem', 1);
+    var bItem1 = build('bItem', 1);
+    var bItem2 = build('bItem', 2);
+    var cItem1 = build('cItem', 1);
+    var cItem2 = build('cItem', 2);
+    var dItem1 = build('dItem', 1);
+    var dItems = [dItem1];
+    cItem1.dItem = dItems;
+    var cItems = [cItem1, cItem2];
+    bItem1.cItem = cItems;
+    var bItems = [bItem1, bItem2];
+    aItem.bItem = bItems;
+
+    var payload = buildPayload('aItems', aItem);
+
+    var expectedPayload =
+      { "aItems": [
+          { "id": 1, "name": "aItem1", "links": { "bItems": [1,2]} }
+        ],
+        "linked": {
+            "bItems": [ {id: 1, name: "bItem1", links: { cItems: [1,2]} },
+                        {id: 2, name: "bItem2"}
+                      ],
+            "cItems": [ {id: 1, name: "cItem1", links: { dItems: [1]} },
+                        {id: 2, name: "cItem2"}
+                      ],
+            "dItems": [ {id: 1, name: "dItem1"} ]
+        }
+      };
+
+    assert.deepEqual(payload, expectedPayload);
+  });
 });
