@@ -103,17 +103,22 @@ describe('Builder Tests:', function(){
 
   it('should use optional linkBackTypes to link embedded objects to their parent', function() {
     var item = build('item', 1);
-    item.mItems = [build('mItem', 1), build('mItem', 2)];
-    var payload = buildPayload('items', item, {linkBackTypes: ['mItem']});
+    var childItem1 = build('childItem', 1);
+    item.childItems = [childItem1, build('childItem', 2)];
+    childItem1.grandChildItems = build('grandChildItem', 1);
+    var payload = buildPayload('items', item, {linkBackTypes: ['childItem', 'grandChildItem']});
 
     var expectedPayload =
     { "items": [
-      { "id": 1, "name": "item1", "links": {"mItems": [1, 2]} }
+      { "id": 1, "name": "item1", "links": {"childItems": [1, 2]} }
     ],
       "linked": {
-        "mItems": [
-          { id: 1, name: 'mItem1', links: {item: 1} },
-          { id: 2, name: 'mItem2', links: {item: 1} }
+        "childItems": [
+          { id: 1, name: 'childItem1', links: {item: 1, "grandChildItem": 1} },
+          { id: 2, name: 'childItem2', links: {item: 1} }
+        ],
+        "grandChildItems": [
+          { id: 1, name: 'grandChildItem1', links: {'childItem': 1}}
         ]
       }
     };
