@@ -1,3 +1,8 @@
+DEPRECATION WARNING
+===================
+
+As of the json-api 1.0 spec, the formats used here are out-of-date.  
+
 json-api-payload-builder
 ========================
 
